@@ -15,7 +15,7 @@ $Global:Win8orGreater = [Environment]::OSVersion.Version -ge (new-object 'Versio
 function Test-WiredConnection
 {
 #Get only wired connections with IP-address
-$NetworkConnectionsLAN = Get-WmiObject -Class Win32_NetworkAdapterConfiguration -Filter “IPEnabled=TRUE” | Where-Object {($_.Description -notlike “*VirtualBox*”) -and ($_.Description -notlike “*VMware*”) -and ($_.Description -notlike “*Wireless*”) -and ($_.Description -notlike “*WiFi*”)}
+$NetworkConnectionsLAN = Get-WmiObject -Class Win32_NetworkAdapterConfiguration -Filter “IPEnabled=TRUE” | Where-Object {($_.Description -notlike “*VirtualBox*”) -and ($_.Description -notlike “*VMware*”) -and ($_.Description -notlike “*Wireless*”) -and ($_.Description -notlike “*WiFi*”) -and ($_.Description -notlike “*tap*”) -and ($_.Description -notlike “*Miniport*” -and ($_.Description -notlike “*cisco*”)) }
 
 If ($NetworkConnectionsLAN -eq $null)
     {
@@ -35,7 +35,7 @@ ElseIf ($NetworkConnectionsLAN -ne $null)
 function Test-WirelessConnection
 {
 #Get only wireless connections with IP-address
-$NetworkConnectionsWLAN = Get-WmiObject -Class Win32_NetworkAdapterConfiguration -Filter “IPEnabled=TRUE” | Where-Object {($_.Description -notlike “*VirtualBox*”) -and ($_.Description -notlike “*VMware*”) -and ($_.Description -like “*Wireless*”) -or ($_.Description -like “*WiFi*”)}
+$NetworkConnectionsWLAN = Get-WmiObject -Class Win32_NetworkAdapterConfiguration -Filter “IPEnabled=TRUE” | Where-Object {($_.Description -notlike “*VirtualBox*”) -and ($_.Description -notlike “*TAP*”) -and ($_.Description -notlike “*VMware*”) -and ($_.Description -like “*Wireless*”) -or ($_.Description -like “*WiFi*”)}
 
 If ($NetworkConnectionsWLAN -eq $null)
     {
